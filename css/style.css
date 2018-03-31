@@ -7,6 +7,10 @@ body {
   overflow: hidden;
 }
 
+img {
+  height: 30px;
+}
+
 .level-splash {
   font-size: 0;
   -webkit-transition: all 0s;

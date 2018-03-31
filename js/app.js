@@ -25,6 +25,9 @@ class Rigidbody {
 /** Class representing a Player */
 class Player {
   constructor() {
+    this.reset();
+    this.body = new Rigidbody(this.x + 15, this.y + 60, 70, 85);
+
     const sprites = [
       'images/char-boy.png',
       'images/char-cat-girl.png',
@@ -34,15 +37,20 @@ class Player {
     ];
 
     this.sprite = sprites[Math.floor(Math.random() * 5)];
-    this.body = new Rigidbody(this.x + 15, this.y + 60, 70, 85);
-
-    this.reset();
   }
 
-  update(dt) {
+  update() {
     this.body.x = this.x + 15;
     this.body.y = this.y + 60;
+
+    this.collides(gem);
   };
+
+  collides(other) {
+    if (other !== null && this.body.collides(other.body)) {
+      collectGem();
+    }
+  }
 
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -99,10 +107,10 @@ class Player {
 /** Class representing an Enemy */
 class Enemy {
   constructor() {
-    this.sprite = 'images/enemy-bug.png';
+    this.reset();
     this.body = new Rigidbody(this.x, this.y + 75, 100, 70);
 
-    this.reset();
+    this.sprite = 'images/enemy-bug.png';
   }
 
   update(dt) {
@@ -117,10 +125,8 @@ class Enemy {
     this.body.y = this.y + 75;
 
     // rect to the collision
-    if (this.body.collides(player.body)) {
-      player.reset();
-      allEnemies.length = 2;
-      setLevel(1);
+    if (this.collides(player)) {
+      gameOver();
     }
   };
 
@@ -133,11 +139,47 @@ class Enemy {
     this.y = 50 + Math.floor(Math.random() * 3) * 85;
     this.speed = 100 + Math.floor(Math.random() * 100) * speedMultiplier;
   }
+
+  collides(other) {
+    return this.body.collides(other.body);
+  }
+}
+
+class Gem {
+  constructor() {
+    this.reset();
+    this.body = new Rigidbody(this.x + 15, this.y + 85, 70, 60);
+
+    const sprites = [
+      'images/gem-blue.png',
+      'images/gem-green.png',
+      'images/gem-orange.png'
+    ];
+
+    this.sprite = sprites[Math.floor(Math.random() * 3)];
+
+    this.render();
+
+    // Destroy this Gem
+    setTimeout(() => {
+      gem = null;
+    }, 3000);
+  }
+
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  };
+
+  reset() {
+    this.x = Math.floor(Math.random() * 5) * 101;
+    this.y = 50 + Math.floor(Math.random() * 3) * 85;
+  }
 }
 
 /** Game logic */
 let level = 1;
 let speedMultiplier = 0.1;
+let collected = 0;
 
 // Instantiate player
 const player = new Player();
@@ -147,6 +189,14 @@ const allEnemies = new Array();
 for (let i = 0; i < 2; i++) {
   allEnemies.push(new Enemy());
 }
+
+// Container for Gems
+// Instantiate new Gem randomly
+let gem = null;
+setInterval(() => {
+  gem = null;
+  gem = new Gem();
+}, 5000);
 
 function setLevel(l) {
   if (l === 1) {
@@ -180,6 +230,29 @@ function levelUp() {
   }
 
   setLevel(level);
+}
+
+function setCollected(c) {
+  collected = c;
+
+  const levelElements = document.getElementsByClassName('gems');
+  for(const el of levelElements) {
+    el.innerText = collected;
+  }
+}
+
+function collectGem() {
+  collected++;
+  gem = null;
+  setCollected(collected);
+}
+
+function gameOver() {
+  player.reset();
+  allEnemies.length = 2;
+  gem = null;
+  setCollected(0);
+  setLevel(1);
 }
 
 document.addEventListener('keyup', function(e) {

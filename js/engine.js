@@ -154,6 +154,10 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        if (gem !== null) {
+          gem.render();
+        }
     }
 
     /* This function does nothing but it could have been a good place to
@@ -178,6 +182,9 @@ var Engine = (function(global) {
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
         'images/char-princess-girl.png',
+        'images/gem-blue.png',
+        'images/gem-green.png',
+        'images/gem-orange.png'
     ]);
     Resources.onReady(init);
 
