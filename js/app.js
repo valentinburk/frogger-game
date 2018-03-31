@@ -148,7 +148,17 @@ function levelUp() {
     allEnemies.push(new Enemy());
   }
 
-  document.getElementById('level').innerText = level;
+  // Update level text in html
+  const levelElements = document.getElementsByClassName('level');
+  for(const el of levelElements) {
+    el.innerText = level;
+  }
+
+  const splashElements = document.getElementsByClassName('level-splash');
+  splashElements[0].classList.add('level-splash-done');
+  setTimeout(() => {
+    splashElements[0].classList.remove('level-splash-done');
+  }, 1000);
 }
 
 document.addEventListener('keyup', function(e) {
