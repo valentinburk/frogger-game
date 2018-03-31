@@ -129,7 +129,6 @@ class Enemy {
 
 /** Game logic */
 let level = 1;
-let enemies = 2;
 let speedMultiplier = 0.1;
 
 // Instantiate player
@@ -137,11 +136,15 @@ const player = new Player();
 
 // Instantiate enemies
 const allEnemies = new Array();
-for (let i = 0; i < enemies; i++) {
+for (let i = 0; i < 2; i++) {
   allEnemies.push(new Enemy());
 }
 
 function setLevel(l) {
+  if (l === 1) {
+    speedMultiplier = 0.1;
+  }
+
   level = l;
 
   // Update level text in html
@@ -154,12 +157,11 @@ function setLevel(l) {
   splashElements[0].classList.add('level-splash-done');
   setTimeout(() => {
     splashElements[0].classList.remove('level-splash-done');
-  }, 1000);
+  }, 500);
 }
 
 function levelUp() {
   level++;
-  enemies++;
 
   if (level % 2 === 0) {
     speedMultiplier += 0.1;
