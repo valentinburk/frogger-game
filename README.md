@@ -18,7 +18,14 @@ Well-known classic arcade game [Frogger](https://en.wikipedia.org/wiki/Frogger "
 
 ## Usage
 
-Full game is available on my website https://burk.in/frogger
+To play the game online:
+1. Simply navigate to https://burk.in/frogger
+2. Enjoy the game
+
+To play the game locally on your computer:
+1. Clone the project or download ZIP to your computer
+2. Run index.html in your favorite browser
+3. Enjoy the game
 
 ## Instructions
 
