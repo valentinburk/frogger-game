@@ -25,9 +25,6 @@ class Rigidbody {
 /** Class representing a Player */
 class Player {
   constructor() {
-    this.x = 0;
-    this.y = 0;
-
     this.sprite = 'images/char-boy.png';
     this.body = new Rigidbody(this.x + 15, this.y + 60, 70, 85);
 
@@ -63,6 +60,7 @@ class Player {
 
     if (this.waterReached()) {
       this.reset();
+      levelUp();
     }
   }
 
@@ -93,12 +91,10 @@ class Player {
 /** Class representing an Enemy */
 class Enemy {
   constructor() {
-    this.x = -100;
-    this.y = 50 + Math.floor(Math.random() * 3) * 85;
-    this.speed = 100 + Math.floor(Math.random() * 100);
-
     this.sprite = 'images/enemy-bug.png';
     this.body = new Rigidbody(this.x, this.y + 75, 100, 70);
+
+    this.reset();
   }
 
   update(dt) {
@@ -124,17 +120,35 @@ class Enemy {
 
   reset() {
     this.x = -100;
-    this.speed = 100 + Math.floor(Math.random() * 100);
+    this.y = 50 + Math.floor(Math.random() * 3) * 85;
+    this.speed = 100 + Math.floor(Math.random() * 100) * speedMultiplier;
   }
 }
+
+/** Game logic */
+let level = 1;
+let enemies = 2;
+let speedMultiplier = 0.1;
 
 // Instantiate player
 const player = new Player();
 
 // Instantiate enemies
 const allEnemies = new Array();
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < enemies; i++) {
   allEnemies.push(new Enemy());
+}
+
+function levelUp() {
+  level++;
+  enemies++;
+
+  if (level % 2 === 0) {
+    speedMultiplier += 0.1;
+    allEnemies.push(new Enemy());
+  }
+
+  document.getElementById('level').innerText = level;
 }
 
 document.addEventListener('keyup', function(e) {
