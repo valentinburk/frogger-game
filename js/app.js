@@ -25,7 +25,15 @@ class Rigidbody {
 /** Class representing a Player */
 class Player {
   constructor() {
-    this.sprite = 'images/char-boy.png';
+    const sprites = [
+      'images/char-boy.png',
+      'images/char-cat-girl.png',
+      'images/char-horn-girl.png',
+      'images/char-pink-girl.png',
+      'images/char-princess-girl.png'
+    ];
+
+    this.sprite = sprites[Math.floor(Math.random() * 5)];
     this.body = new Rigidbody(this.x + 15, this.y + 60, 70, 85);
 
     this.reset();
