@@ -111,6 +111,8 @@ class Enemy {
     // rect to the collision
     if (this.body.collides(player.body)) {
       player.reset();
+      allEnemies.length = 2;
+      setLevel(1);
     }
   };
 
@@ -139,14 +141,8 @@ for (let i = 0; i < enemies; i++) {
   allEnemies.push(new Enemy());
 }
 
-function levelUp() {
-  level++;
-  enemies++;
-
-  if (level % 2 === 0) {
-    speedMultiplier += 0.1;
-    allEnemies.push(new Enemy());
-  }
+function setLevel(l) {
+  level = l;
 
   // Update level text in html
   const levelElements = document.getElementsByClassName('level');
@@ -159,6 +155,21 @@ function levelUp() {
   setTimeout(() => {
     splashElements[0].classList.remove('level-splash-done');
   }, 1000);
+}
+
+function levelUp() {
+  level++;
+  enemies++;
+
+  if (level % 2 === 0) {
+    speedMultiplier += 0.1;
+  }
+
+  if (level % 3 === 0) {
+    allEnemies.push(new Enemy());
+  }
+
+  setLevel(level);
 }
 
 document.addEventListener('keyup', function(e) {
