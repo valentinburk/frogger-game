@@ -11,6 +11,10 @@ img {
   height: 30px;
 }
 
+.game-info {
+  font-size: 24px;
+}
+
 .level-splash {
   font-size: 0;
   -webkit-transition: all 0s;
