@@ -1,5 +1,12 @@
 /** Class representing physical object body for collisions */
 class Rigidbody {
+  /**
+   * Creates a Rigidbody for game objects
+   * @param {number} x X coordinate
+   * @param {number} y Y coordinate
+   * @param {number} width Width of the Rigidbody
+   * @param {number} height Height of the Rigidbody
+   */
   constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -8,7 +15,7 @@ class Rigidbody {
   }
 
   /**
-   * @description Checks if current body collides with other Rigidbody
+   * Checks if current body collides with other Rigidbody
    * @param {Rigidbody} other Other body to check collision with
    * @returns {bool} True if collides
    */
@@ -24,6 +31,9 @@ class Rigidbody {
 
 /** Class representing a Player */
 class Player {
+  /**
+   * Creates a Player Game object
+   */
   constructor() {
     this.reset();
     this.body = new Rigidbody(this.x + 15, this.y + 60, 70, 85);
@@ -39,23 +49,30 @@ class Player {
     this.sprite = sprites[Math.floor(Math.random() * 5)];
   }
 
+  /**
+   * Updates the player position
+   */
   update() {
     this.body.x = this.x + 15;
     this.body.y = this.y + 60;
 
-    this.collides(gem);
-  };
-
-  collides(other) {
-    if (other !== null && this.body.collides(other.body)) {
+    // Check for collision with gem
+    if (gem !== null && this.body.collides(gem.body)) {
       collectGem();
     }
-  }
+  };
 
+  /**
+   * Renders object on board
+   */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
 
+  /**
+   * Makes player object react on key press
+   * @param {string} key Key
+   */
   handleInput(key) {
     switch (key) {
       case 'left':
@@ -80,6 +97,9 @@ class Player {
     }
   }
 
+  /**
+   * Fixes player's object position on screen
+   */
   fixOffscreen() {
     if (this.x > 400) {
       this.x = 400;
@@ -94,10 +114,17 @@ class Player {
     }
   }
 
+  /**
+   * Checks if player's object reached the finish line
+   * @returns {bool} True if reached finish line
+   */
   waterReached() {
     return this.y < 60;
   }
 
+  /**
+   * Resets game object to initial position
+   */
   reset() {
     this.x = 200;
     this.y = 400;
@@ -106,6 +133,9 @@ class Player {
 
 /** Class representing an Enemy */
 class Enemy {
+  /**
+   * Creates an Enemy Game object
+   */
   constructor() {
     this.reset();
     this.body = new Rigidbody(this.x, this.y + 75, 100, 70);
@@ -113,6 +143,10 @@ class Enemy {
     this.sprite = 'images/enemy-bug.png';
   }
 
+  /**
+   * Updates the enemy position
+   * @param {number} dt Time Delta for smoothing
+   */
   update(dt) {
     this.x += dt * this.speed;
 
@@ -124,28 +158,43 @@ class Enemy {
     this.body.x = this.x;
     this.body.y = this.y + 75;
 
-    // rect to the collision
+    // react to the collision
     if (this.collides(player)) {
       gameOver();
     }
   };
 
+  /**
+   * Renders object on board
+   */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
 
+  /**
+   * Resets game object to initial position
+   */
   reset() {
     this.x = -100;
     this.y = 50 + Math.floor(Math.random() * 3) * 85;
     this.speed = 100 + Math.floor(Math.random() * 100) * speedMultiplier;
   }
 
+  /**
+   * Checks for the collision with other object
+   * @param {object} other Other object
+   * @returns {bool} True if collides
+   */
   collides(other) {
     return this.body.collides(other.body);
   }
 }
 
+/** Class representing a collectible */
 class Gem {
+  /**
+   * Creates a Gem Game object
+   */
   constructor() {
     this.reset();
     this.body = new Rigidbody(this.x + 15, this.y + 85, 70, 60);
@@ -166,10 +215,16 @@ class Gem {
     }, 3000);
   }
 
+  /**
+   * Renders object on board
+   */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
 
+  /**
+   * Resets game object to initial position
+   */
   reset() {
     this.x = Math.floor(Math.random() * 5) * 101;
     this.y = 50 + Math.floor(Math.random() * 3) * 85;
@@ -177,6 +232,7 @@ class Gem {
 }
 
 /** Game logic */
+
 let level = 1;
 let speedMultiplier = 0.1;
 let collected = 0;
@@ -198,6 +254,10 @@ setInterval(() => {
   gem = new Gem();
 }, 5000);
 
+/**
+ * Sets level of the game
+ * @param {number} l Level
+ */
 function setLevel(l) {
   if (l === 1) {
     speedMultiplier = 0.1;
@@ -211,6 +271,7 @@ function setLevel(l) {
     el.innerText = level;
   }
 
+  // Show splash screen
   const splashElements = document.getElementsByClassName('level-splash');
   splashElements[0].classList.add('level-splash-done');
   setTimeout(() => {
@@ -218,6 +279,9 @@ function setLevel(l) {
   }, 500);
 }
 
+/**
+ * Increases the level
+ */
 function levelUp() {
   level++;
 
@@ -232,6 +296,10 @@ function levelUp() {
   setLevel(level);
 }
 
+/**
+ * Sets the collected gems number
+ * @param {number} c Number of collected gems
+ */
 function setCollected(c) {
   collected = c;
 
@@ -241,12 +309,18 @@ function setCollected(c) {
   }
 }
 
+/**
+ * Collects gems
+ */
 function collectGem() {
   collected++;
   gem = null;
   setCollected(collected);
 }
 
+/**
+ * Resets the game
+ */
 function gameOver() {
   player.reset();
   allEnemies.length = 2;

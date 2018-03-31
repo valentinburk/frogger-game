@@ -1,6 +1,45 @@
-frontend-nanodegree-arcade-game
-===============================
+# Frogger Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This is a project for [Front-End Web Developer Udacity Nanodegree Program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001).
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+Thanks to [Google](https://google.com "Google") and [Udacity](https://www.udacity.com "Udacity") for [Scholarship](https://www.udacity.com/google-scholarships) for this program.
+
+### Description
+
+Well-known classic arcade game [Frogger](https://en.wikipedia.org/wiki/Frogger "Wikipedia") is a game with object to direct player to the finish line one by one crossing a road full of enemies.
+
+## Table of Contents
+
+* [Usage](#usage)
+* [Instructions](#instructions)
+* [Contents](#contents)
+* [Attributions](#attributions)
+* [Contributions](#contributions)
+
+## Usage
+
+Full game is available on my website https://burk.in/frogger
+
+## Instructions
+
+Your character is selected randomly on each start of the game.
+
+The goal is to direct your player to the river.
+
+Navigate your player across the road full of enemies by pressing direction keys on your keyboard: up, down, left and right.
+
+Each time you reach the river the game becomes more difficult. The number of enemies and their moving speed are increased on each level.
+
+Collect gems and try to get highest score as possible.
+
+## Contents
+
+This game is written with HTML, CSS and JavaScript.
+
+## Attributions
+
+All graphic assets are provided by [Udacity](https://www.udacity.com "Udacity").
+
+## Contributions
+
+All contributions are limited but possible. If you have want to contribute, please, follow the same code style and make a Pull Request.
